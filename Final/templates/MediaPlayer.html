@@ -1,0 +1,58 @@
+<!doctype html>
+<head>
+    <title> Midterm Player </title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container-fluid bg-dark">
+    {% if queue %}
+        <div class="container-fluid p-0 p-0">
+            <p class="text-light">Queued Songs</p>
+            {% for item in queue %}
+                <div class="row p-0 m-0 border border-light">
+                    <div class="col">
+                        <p class="text-light"> Song: {{ item[2] }} </p>
+                    </div>   
+                    <div class="col">
+                        <p class="text-light"> Artist: {{ item[1] }} </p>
+                    </div>
+                </div>
+            {% endfor %}
+         </div>
+    {% endif %}
+        <form method="POST" class="container-fluid p-5 m-0">
+            <div class="form-group">
+                <label class="text-light" for="search">Search Song</label>
+                <input name="search" type="text" class="form-control" placeholder="Enter Song">
+            </div>
+            <button type="submit" class="btn btn-primary">Search</button>
+            
+            {% if searchResults %}
+                <div class="container-fluid p-0 p-0">
+                    <p class="text-light">Search Results</p>
+                    {% for item in searchResults %}
+                        <div class="row p-0 m-0 border border-light">
+                            <div class="col-4">
+                                <p class="text-light"> Song: {{ item.name }} </p>
+                            </div>   
+                            <div class="col-4">
+                                <p class="text-light"> Artist: {{ item.artists[0].name }} </p>
+                            </div> 
+                            <div class="col">
+                                <input name="action" type="hidden" value="play_song"/>
+                                <input name="url" type="hidden" value="{{ item.preview_url }}"/>
+                                <input name="song_name" type="hidden" value="{{ item.name }}"/>
+                                <input name="artist_name" type="hidden" value="{{ item.artists[0].name }}"/>
+                                <button type="submit" class="btn btn-primary"> 
+                                    Add Song  
+                                </button>
+                            </div> 
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            
+        </form>
+    </div>
+</body>
